@@ -21,9 +21,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
+import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 import android.util.LongSparseArray;
 
 import com.readystatesoftware.chuck.Chuck;
@@ -76,9 +76,13 @@ public class NotificationHelper {
 
     public synchronized void show(HttpTransaction transaction) {
         addToBuffer(transaction);
+        int flags = 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S){
+            flags =  PendingIntent.FLAG_IMMUTABLE;
+        }
         if (!BaseChuckActivity.isInForeground()) {
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
-                    .setContentIntent(PendingIntent.getActivity(context, 0, Chuck.getLaunchIntent(context), 0))
+                    .setContentIntent(PendingIntent.getActivity(context, 0, Chuck.getLaunchIntent(context), flags))
                     .setLocalOnly(true)
                     .setSmallIcon(R.drawable.chuck_ic_notification_white_24dp)
                     .setColor(ContextCompat.getColor(context, R.color.chuck_colorPrimary))
@@ -111,9 +115,13 @@ public class NotificationHelper {
 
     @NonNull
     private NotificationCompat.Action getClearAction() {
+        int flags = PendingIntent.FLAG_ONE_SHOT;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S){
+            flags =  PendingIntent.FLAG_IMMUTABLE;
+        }
         CharSequence clearTitle = context.getString(R.string.chuck_clear);
         Intent deleteIntent = new Intent(context, ClearTransactionsService.class);
-        PendingIntent intent = PendingIntent.getService(context, 11, deleteIntent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent intent = PendingIntent.getService(context, 11, deleteIntent, flags);
         return new NotificationCompat.Action(R.drawable.chuck_ic_delete_white_24dp,
             clearTitle, intent);
     }

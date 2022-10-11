@@ -11,10 +11,13 @@ android {
 }
 
 dependencies {
-    compile 'com.google.code.gson:gson:2.8.0'
-    compile "com.squareup.okhttp3:okhttp:$okhttp3Version"
-    compile 'nl.qbusict:cupboard:2.2.0'
-    compile "com.android.support:design:$supportLibVersion"
+//    implementation 'androidx.work:work-runtime-ktx:2.7.0'
+    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation "com.squareup.okhttp3:okhttp:4.10.0"
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
+    implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.10.0'
+    implementation 'nl.qbusict:cupboard:2.2.0'
+    implementation 'com.google.android.material:material:1.6.1'
 }
 
-apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
+//apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
