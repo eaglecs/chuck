@@ -330,7 +330,7 @@ public class HttpTransaction {
             case Requested:
                 return null;
             default:
-                return String.valueOf(responseCode) + " " + responseMessage;
+                return responseCode + " " + responseMessage;
         }
     }
 
@@ -341,12 +341,12 @@ public class HttpTransaction {
             case Requested:
                 return " . . .  " + path;
             default:
-                return String.valueOf(responseCode) + " " + path;
+                return responseCode + " " + path;
         }
     }
 
     public boolean isSsl() {
-        return scheme.toLowerCase().equals("https");
+        return scheme.equalsIgnoreCase("https");
     }
 
     private List<HttpHeader> toHttpHeaderList(Headers headers) {
